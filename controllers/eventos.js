@@ -9,6 +9,7 @@ const getEventos = async (req, res = response) => {
 
         res.status(200).json({
 
+            ok: true,
             mensaje: 'Obtener eventos.',
             evento
         });
@@ -19,6 +20,7 @@ const getEventos = async (req, res = response) => {
 
         res.status(400).json({
 
+            ok: false,
             mensaje: 'No hay eventos que mostra.'
         });
     }
@@ -39,6 +41,7 @@ const crearEvento = async (req, res = response) => {
 
         res.status(200).json({
 
+            ok: true,
             eventoGuardado,
             mensaje: 'El evento fue creado.'
         });
@@ -48,6 +51,7 @@ const crearEvento = async (req, res = response) => {
         console.log(error);
         res.status(500).json({
 
+            ok: false,
             mensaje: 'Hable con el administrador.'
         });
     }
@@ -65,8 +69,9 @@ const actualizarEvento = async (req, res = response) => {
 
         if (!evento) {
 
-            res.status(404).json({
+            return res.status(404).json({
 
+                ok: false,
                 mensaje: 'Evento no existe.'
             });
 
@@ -76,6 +81,7 @@ const actualizarEvento = async (req, res = response) => {
 
             return res.status(401).json({
 
+                ok: false,
                 mensaje: 'No eres la persona que creo este evento, no puedes modificarlo.'
             });
         }
@@ -91,6 +97,7 @@ const actualizarEvento = async (req, res = response) => {
 
         res.status(200).json({
 
+            ok: true,
             mensaje: 'Evento actualizado.',
             eventoActualizado
         });
@@ -102,6 +109,7 @@ const actualizarEvento = async (req, res = response) => {
 
         res.status(400).json({
 
+            ok: false,
             mensaje: 'Hable con el administrador.'
         });
     }
@@ -121,6 +129,7 @@ const eliminarEvento = async (req, res = response) => {
 
             return res.status(400).json({
 
+                ok: false,
                 mensaje: 'Evento no existe.'
             });
         }
@@ -129,6 +138,7 @@ const eliminarEvento = async (req, res = response) => {
 
             return res.status(401).json({
 
+                ok: false,
                 mensaje: 'No eres la persona que creo este evento, no puedes eliminarlo.'
             });
         }
@@ -137,6 +147,7 @@ const eliminarEvento = async (req, res = response) => {
 
         res.status(200).json({
 
+            ok: true,
             mensaje: 'Evento eliminado.',
             eliminarEvento
         });
@@ -148,6 +159,7 @@ const eliminarEvento = async (req, res = response) => {
 
         res.status(500).json({
 
+            ok: false,
             mensaje: 'Hable con el administrador.'
         });
     }

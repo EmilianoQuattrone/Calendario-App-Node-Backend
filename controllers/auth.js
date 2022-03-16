@@ -15,6 +15,7 @@ const crearUsuario = async (req, res = response) => {
 
             return res.status(400).json({
 
+                ok: false,
                 mensaje: `El ${usuario.email} ya existe.`
             });
         }
@@ -30,22 +31,24 @@ const crearUsuario = async (req, res = response) => {
         //Generar JWT.
         const token = await generarJWT(usuario.id, usuario.nombre);
 
-        res.status(200).json({
+        res.status(201).json({
 
+            ok: true,
             //La propiedad id viene de mongo.
             uid: usuario.id,
             nombre: usuario.nombre,
-            token: {
-
-                token
-            },
+            token,
             mensaje: `Se creo el usuario ${usuario.email} correctamente.`
         });
 
     } catch (error) {
 
         console.log(error);
-        throw new Error('No se puedo crear el usuario.');
+        res.status(500).json({
+
+            ok: false,
+            mensaje: 'Por favor hable con el administrador'
+        });
     }
 }
 
@@ -61,6 +64,7 @@ const loginUsuario = async (req, res = response) => {
 
             return res.status(400).json({
 
+                ok: false,
                 mensaje: 'El usuario con ese email no existe.'
             });
         }
@@ -70,8 +74,9 @@ const loginUsuario = async (req, res = response) => {
 
         if (!validarPassword) {
 
-            res.status(400).json({
+            return res.status(400).json({
 
+                ok: false,
                 mensaje: 'La contraseña es incorrecta.'
             });
         }
@@ -81,19 +86,20 @@ const loginUsuario = async (req, res = response) => {
 
         res.status(200).json({
 
+            ok: true,
             uid: usuario.id,
             nombre: usuario.nombre,
-
-            token: {
-
-                token
-            }
+            token
         });
 
     } catch (error) {
 
         console.log(error);
-        throw new Error('No se puedo iniciar sesion.');
+        res.status(500).json({
+
+            ok: false,
+            mensaje: 'Por favor hable con el administrador.'
+        });
     }
 }
 
@@ -107,6 +113,7 @@ const revalidarToken = async (req, res = response) => {
 
     res.status(200).json({
 
+        ok: true,
         mensaje: 'renew',
         uid,
         nombre,

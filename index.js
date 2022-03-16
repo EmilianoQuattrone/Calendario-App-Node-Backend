@@ -1,12 +1,14 @@
 const express = require('express');
 const { mongoDb } = require('./database/confing');
 const app = express();
+const cors = require('cors');
 require('dotenv').config();
-
-const puerto = process.env.PORT;
 
 //Base de datos.
 mongoDb();
+
+//CORS
+app.use(cors());
 
 //Esto es para levantar el directorio publico.
 app.use(express.static('public'));
@@ -18,7 +20,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/eventos', require('./routes/eventos'));
 
-app.listen(puerto, () => {
+app.listen(process.env.PORT, () => {
 
-    console.log('Servidor corriendo en puerto: ' + puerto);
+    console.log('Servidor corriendo en puerto: ' + process.env.PORT);
 });
